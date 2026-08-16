@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DataProvider } from "@/lib/data/provider";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <DataProvider>
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster richColors position="top-right" />
         </DataProvider>
       </body>
     </html>
