@@ -712,7 +712,7 @@ Browser client uses `createBrowserClient`; server and proxy use `createServerCli
 
 - [ ] **Step 6: Connect provider mode and remote images**
 
-When `NEXT_PUBLIC_DATA_MODE=supabase`, require URL and anon key and build Supabase repositories. In `next.config.ts`, allow `next/image` only for the hostname parsed from `NEXT_PUBLIC_SUPABASE_URL`. Demo remains the default and must not require either variable.
+When `NEXT_PUBLIC_DATA_MODE=supabase`, require URL and publishable key and build Supabase repositories. In `next.config.ts`, allow `next/image` only for the hostname parsed from `NEXT_PUBLIC_SUPABASE_URL`. Demo remains the default and must not require either variable.
 
 - [ ] **Step 7: Verify adapters and migration static guarantees**
 
