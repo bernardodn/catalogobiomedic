@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { DataProvider } from "@/lib/data/provider";
 
 import "./globals.css";
 
@@ -29,7 +30,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
-        <TooltipProvider>{children}</TooltipProvider>
+        <DataProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </DataProvider>
       </body>
     </html>
   );
