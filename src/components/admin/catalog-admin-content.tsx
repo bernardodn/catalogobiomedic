@@ -73,7 +73,7 @@ export function CatalogAdminContent() {
         <Button asChild className="rounded-sm"><Link href="/admin/catalogo/novo"><Plus aria-hidden="true" />Novo item</Link></Button>
       </div>
 
-      <div className="overflow-hidden border bg-card">
+      <div className="hidden overflow-hidden border bg-card md:block">
         <Table>
           <TableHeader><TableRow><TableHead>Item</TableHead><TableHead>Tipo</TableHead><TableHead>Categoria</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
           <TableBody>
@@ -92,6 +92,36 @@ export function CatalogAdminContent() {
             {items.length === 0 && <TableRow><TableCell colSpan={5} className="h-32 text-center text-muted-foreground">Nenhum item encontrado.</TableCell></TableRow>}
           </TableBody>
         </Table>
+      </div>
+      <div className="divide-y border bg-card md:hidden">
+        {items.map((item) => {
+          const busy = state.busyIds.includes(item.id);
+          return (
+            <article key={item.id} data-testid={`mobile-admin-item-${item.name}`} className="space-y-4 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h2 className="font-medium text-brand-navy">{item.name}</h2>
+                  <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">{item.shortDescription}</p>
+                </div>
+                <Badge variant="outline" className="shrink-0 rounded-sm">{item.type === "active" ? "Ativo" : "Produto"}</Badge>
+              </div>
+              <div className="flex items-center justify-between gap-3 border-t pt-3">
+                <div>
+                  <p className="text-xs font-medium">{categories.get(item.categoryId) ?? "—"}</p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <Switch checked={item.active} disabled={busy} onCheckedChange={(active) => void toggle(item, active)} aria-label={`${item.active ? "Desativar" : "Ativar"} ${item.name}`} />
+                    <span className="text-xs text-muted-foreground">{item.active ? "Visível" : "Oculto"}</span>
+                  </div>
+                </div>
+                <div className="flex gap-1">
+                  <Button asChild variant="outline" size="icon"><Link href={`/admin/catalogo/${item.id}/editar`} aria-label={`Editar ${item.name}`}><Pencil aria-hidden="true" /></Link></Button>
+                  <Button variant="outline" size="icon" aria-label={`Excluir ${item.name}`} onClick={() => setPendingDelete(item)}><Trash2 aria-hidden="true" /></Button>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+        {items.length === 0 && <p className="p-8 text-center text-sm text-muted-foreground">Nenhum item encontrado.</p>}
       </div>
       <p className="text-xs text-muted-foreground">{items.length} de {state.total} itens</p>
 

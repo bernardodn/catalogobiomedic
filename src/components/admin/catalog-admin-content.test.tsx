@@ -15,6 +15,20 @@ describe("CatalogAdminContent", () => {
     resetDemoDatabase();
   });
 
+  it("renders complete stacked records for mobile layouts", async () => {
+    const repositories = createDemoRepositories();
+    render(
+      <RepositoryContext.Provider value={repositories}>
+        <CatalogAdminContent />
+      </RepositoryContext.Provider>,
+    );
+
+    expect(await screen.findAllByTestId(/^mobile-admin-item-/)).toHaveLength(18);
+    const berberina = screen.getByTestId("mobile-admin-item-Berberina");
+    expect(within(berberina).getByRole("link", { name: "Editar Berberina" })).toBeInTheDocument();
+    expect(within(berberina).getByRole("button", { name: "Excluir Berberina" })).toBeInTheDocument();
+  });
+
   it("requires explicit confirmation before deleting an item", async () => {
     const user = userEvent.setup();
     const repositories = createDemoRepositories();

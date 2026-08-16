@@ -30,6 +30,7 @@ export function AdminSidebar({ mobile = false }: { mobile?: boolean }) {
           alt="BioMedic Farmácia de Manipulação"
           width={168}
           height={47}
+          priority
           className="brightness-0 invert"
         />
       </Link>
