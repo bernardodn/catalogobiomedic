@@ -195,7 +195,7 @@ Sem imagem, o card usará um placeholder BioMedic consistente e acessível.
 
 ## 10. Autenticação, autorização e RLS
 
-Supabase Auth cuidará da sessão em produção. Middleware protegerá `/admin`, mas a segurança não dependerá dele.
+Supabase Auth cuidará da sessão em produção. O `proxy.ts` do Next.js protegerá `/admin`, mas a segurança não dependerá dele.
 
 Uma função segura `is_admin()` verificará o perfil do usuário autenticado. As políticas RLS serão:
 

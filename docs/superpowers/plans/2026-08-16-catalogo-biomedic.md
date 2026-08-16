@@ -69,7 +69,7 @@ src/
     data/provider.tsx
     data/demo/*
     data/supabase/*
-  middleware.ts
+  proxy.ts
 supabase/
   migrations/202608160001_catalog.sql
   seed.sql
@@ -519,7 +519,7 @@ git commit -m "feat: add searchable public catalog"
 - Create: `src/components/admin/dashboard-stats.tsx`, `recent-items.tsx`
 - Create: `src/app/admin/login/page.tsx`, `login-form.tsx`, `login-form.test.tsx`
 - Create: `src/app/admin/(protected)/layout.tsx`, `page.tsx`, `loading.tsx`, `error.tsx`
-- Create: `src/middleware.ts`
+- Create: `src/proxy.ts`
 
 **Interfaces:**
 - Consumes: `AuthRepository` and admin listing repositories.
@@ -543,7 +543,7 @@ Read `CatalogRepository.getStats()`, `CategoryRepository.list()` and `CatalogRep
 
 - [ ] **Step 5: Add production middleware behavior**
 
-In demo mode, allow the request and let the client session guard redirect. In Supabase mode, refresh cookies with `@supabase/ssr` and redirect unauthenticated `/admin/*` requests except `/admin/login`. Do not place service-role keys in middleware.
+In demo mode, allow the request and let the client session guard redirect. In Supabase mode, refresh cookies with `@supabase/ssr` and redirect unauthenticated `/admin/*` requests except `/admin/login`. Do not place service-role keys in the proxy.
 
 - [ ] **Step 6: Verify and commit**
 
@@ -551,7 +551,7 @@ Run: `npm test -- src/features/auth src/app/admin src/components/admin` and `npm
 Expected: PASS.
 
 ```bash
-git add src/features/auth src/components/admin src/app/admin src/middleware.ts
+git add src/features/auth src/components/admin src/app/admin src/proxy.ts
 git commit -m "feat: add protected admin dashboard"
 ```
 
@@ -659,11 +659,11 @@ git commit -m "feat: add category management and demo reset"
 **Files:**
 - Create: `supabase/migrations/202608160001_catalog.sql`
 - Create: `supabase/seed.sql`
-- Create: `src/lib/data/supabase/client.ts`, `server.ts`, `middleware.ts`
+- Create: `src/lib/data/supabase/client.ts`, `server.ts`, `proxy.ts`
 - Create: `src/lib/data/supabase/catalog-repository.ts`, `category-repository.ts`
 - Create: `src/lib/data/supabase/auth-repository.ts`, `image-repository.ts`
 - Create: `src/lib/data/supabase/mappers.ts`, `mappers.test.ts`
-- Modify: `src/lib/data/provider.tsx`, `src/middleware.ts`, `next.config.ts`, `.env.example`
+- Modify: `src/lib/data/provider.tsx`, `src/proxy.ts`, `next.config.ts`, `.env.example`
 - Create: `docs/supabase-setup.md`
 
 **Interfaces:**
@@ -708,7 +708,7 @@ Seed the same 13 categories and 18 items using stable UUIDs and idempotent `on c
 
 - [ ] **Step 5: Implement Supabase clients and repositories**
 
-Browser client uses `createBrowserClient`; server and middleware use `createServerClient` with cookie adapters. Add a `security invoker` RPC `search_catalog_items(p_query text, p_type catalog_item_type, p_category_id uuid, p_sort text, p_offset integer, p_limit integer, p_include_inactive boolean)` returning the catalog row fields plus `total_count bigint`. Validate `p_sort` against `name-asc`, `name-desc` and `recent`; clamp limit to 1–100; require `is_admin()` when `p_include_inactive` is true; let table RLS apply to the function caller. `SupabaseCatalogRepository.listPublic` calls it with `p_include_inactive=false`; `listAdmin` uses true. Implement `getStats()` with four exact-count queries and `listRecent(limit)` ordered by `created_at desc`; both require the authenticated admin policies. Category repository maps Postgres conflict `23503` to `ConflictError` and uniqueness `23505` to a Portuguese validation conflict. Auth reads the profile after sign-in and rejects non-admin users. Image repository limits the bucket path to `catalog/<itemId>/<uuid>.webp`.
+Browser client uses `createBrowserClient`; server and proxy use `createServerClient` with cookie adapters. Add a `security invoker` RPC `search_catalog_items(p_query text, p_type catalog_item_type, p_category_id uuid, p_sort text, p_offset integer, p_limit integer, p_include_inactive boolean)` returning the catalog row fields plus `total_count bigint`. Validate `p_sort` against `name-asc`, `name-desc` and `recent`; clamp limit to 1–100; require `is_admin()` when `p_include_inactive` is true; let table RLS apply to the function caller. `SupabaseCatalogRepository.listPublic` calls it with `p_include_inactive=false`; `listAdmin` uses true. Implement `getStats()` with four exact-count queries and `listRecent(limit)` ordered by `created_at desc`; both require the authenticated admin policies. Category repository maps Postgres conflict `23503` to `ConflictError` and uniqueness `23505` to a Portuguese validation conflict. Auth reads the profile after sign-in and rejects non-admin users. Image repository limits the bucket path to `catalog/<itemId>/<uuid>.webp`.
 
 - [ ] **Step 6: Connect provider mode and remote images**
 
@@ -729,7 +729,7 @@ Expected: mapper/repository tests pass and every required SQL control is present
 - [ ] **Step 8: Commit**
 
 ```bash
-git add supabase src/lib/data/supabase src/lib/data/provider.tsx src/middleware.ts next.config.ts .env.example docs/supabase-setup.md
+git add supabase src/lib/data/supabase src/lib/data/provider.tsx src/proxy.ts next.config.ts .env.example docs/supabase-setup.md
 git commit -m "feat: add Supabase schema and adapters"
 ```
 
