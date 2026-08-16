@@ -5,6 +5,7 @@ import { createContext, useState, type ReactNode } from "react";
 import { resolveDataMode, type DataMode } from "@/lib/config/env";
 import type { Repositories } from "./contracts";
 import { createDemoRepositories } from "./demo/repositories";
+import { createBrowserSupabaseRepositories } from "./supabase/repositories";
 
 export const RepositoryContext = createContext<Repositories | null>(null);
 
@@ -16,7 +17,7 @@ interface DataProviderProps {
 export function DataProvider({ children, mode = resolveDataMode() }: DataProviderProps) {
   const [repositories] = useState<Repositories>(() => {
     if (mode === "demo") return createDemoRepositories();
-    throw new Error("O adaptador Supabase ainda não foi configurado.");
+    return createBrowserSupabaseRepositories();
   });
 
   return (

@@ -9,6 +9,7 @@ import { DEFAULT_QUERY, type CatalogItem, type Category } from "@/lib/domain/cat
 import { categorySchema } from "@/lib/domain/schemas";
 import { DataError } from "@/lib/data/errors";
 import { useRepositories } from "@/lib/data/use-repositories";
+import { resolveDataMode } from "@/lib/config/env";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -146,11 +147,11 @@ export function CategoryAdminContent() {
           <Button className="mt-5 w-full rounded-sm" disabled={busy} onClick={() => void submit()}>{editing ? "Salvar alterações" : "Adicionar categoria"}</Button>
         </section>
 
-        <section className="border border-destructive/30 bg-card p-5">
+        {resolveDataMode() === "demo" && <section className="border border-destructive/30 bg-card p-5">
           <h2 className="font-semibold">Dados de demonstração</h2>
           <p className="mt-2 text-sm text-muted-foreground">Restaura os 18 itens e as 13 categorias iniciais. Sua sessão continuará conectada.</p>
           <Button variant="outline" className="mt-5 w-full rounded-sm text-destructive" onClick={() => setShowReset(true)}><RotateCcw aria-hidden="true" />Restaurar demonstração</Button>
-        </section>
+        </section>}
       </div>
 
       <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(open) => !open && setPendingDelete(null)}>

@@ -1,11 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-function redirect(request: NextRequest, pathname: string) {
+function redirect(request: NextRequest, pathname: string, source: NextResponse) {
   const url = request.nextUrl.clone();
   url.pathname = pathname;
   url.search = "";
-  return NextResponse.redirect(url);
+  const redirected = NextResponse.redirect(url);
+  for (const cookie of source.cookies.getAll()) redirected.cookies.set(cookie);
+  return redirected;
 }
 
 export async function updateSupabaseSession(request: NextRequest) {
@@ -37,7 +39,7 @@ export async function updateSupabaseSession(request: NextRequest) {
   const { data, error } = await supabase.auth.getClaims();
   const claims = error ? null : data?.claims;
   const isLogin = request.nextUrl.pathname === "/admin/login";
-  if (!claims) return isLogin ? response : redirect(request, "/admin/login");
+  if (!claims) return isLogin ? response : redirect(request, "/admin/login", response);
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -46,7 +48,7 @@ export async function updateSupabaseSession(request: NextRequest) {
     .maybeSingle();
   const isAdmin = profile?.role === "admin";
 
-  if (!isAdmin) return redirect(request, "/admin/login");
-  if (isLogin) return redirect(request, "/admin");
+  if (!isAdmin) return redirect(request, "/admin/login", response);
+  if (isLogin) return redirect(request, "/admin", response);
   return response;
 }
