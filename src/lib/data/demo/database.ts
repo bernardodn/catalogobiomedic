@@ -70,7 +70,7 @@ export function readDemoDatabase(): DemoDatabase {
     const migrated: DemoDatabase = {
       version: 2,
       items: legacy.items.map((item) =>
-        Object.fromEntries(Object.entries(item).filter(([key]) => key !== "type")) as CatalogItem,
+        Object.fromEntries(Object.entries(item).filter(([key]) => key !== "type")) as unknown as CatalogItem,
       ),
       categories: legacy.categories,
     };
