@@ -2,6 +2,7 @@ import { AboutSection } from "@/components/public/about-section";
 import { ContactSection } from "@/components/public/contact-section";
 import { FeaturedCatalog } from "@/components/public/featured-catalog";
 import { HeroSearch } from "@/components/public/hero-search";
+import { PharmaceuticalFormsSection } from "@/components/catalog/pharmaceutical-forms-section";
 
 export default function HomePage() {
   return (
@@ -21,6 +22,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <div className="page-container py-12 sm:py-16">
+        <PharmaceuticalFormsSection />
+      </div>
       <FeaturedCatalog />
       <AboutSection />
       <ContactSection />

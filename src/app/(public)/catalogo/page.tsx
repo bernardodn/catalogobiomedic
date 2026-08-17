@@ -2,7 +2,6 @@ import { Suspense } from "react";
 
 import { CatalogBrowser } from "@/components/catalog/catalog-browser";
 import { CatalogSkeleton } from "@/components/catalog/catalog-skeleton";
-import { PharmaceuticalFormsSection } from "@/components/catalog/pharmaceutical-forms-section";
 
 export const metadata = {
   title: "Catálogo BioMedic | Itens para Manipulação",
@@ -21,9 +20,6 @@ export default function CatalogPage() {
           <p className="mt-5 text-base leading-7 text-muted-foreground">
             Encontre rapidamente itens disponíveis para manipulação.
           </p>
-        </div>
-        <div className="mt-10">
-          <PharmaceuticalFormsSection />
         </div>
         <div className="mt-10">
           <Suspense fallback={<CatalogSkeleton />}>
