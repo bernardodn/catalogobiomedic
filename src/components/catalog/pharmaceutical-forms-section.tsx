@@ -49,11 +49,11 @@ export function PharmaceuticalFormsSection() {
         </h2>
       </div>
 
-      <ul className="mt-8 grid gap-px border bg-border sm:grid-cols-2 lg:grid-cols-4" aria-label="Formas farmacêuticas disponíveis">
+      <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Formas farmacêuticas disponíveis">
         {pharmaceuticalForms.map((form) => (
           <li
             key={form}
-            className="flex min-h-16 items-center bg-background px-5 py-4 text-base font-medium text-brand-navy"
+            className="flex min-h-16 items-center border bg-card px-5 py-4 text-base font-medium text-brand-navy"
           >
             {form}
           </li>
