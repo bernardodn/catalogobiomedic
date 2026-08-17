@@ -23,7 +23,7 @@ describe("DemoCatalogRepository", () => {
     expect(page.items.map(({ name }) => name)).toContain("Magnésio Bisglicinato");
   });
 
-  it("combines type and category filters", async () => {
+  it("filters by category", async () => {
     const categories = await import("./seed").then(({ DEMO_CATEGORIES }) =>
       DEMO_CATEGORIES,
     );
@@ -31,12 +31,11 @@ describe("DemoCatalogRepository", () => {
 
     const page = await repository.listPublic({
       ...DEFAULT_QUERY,
-      type: "product",
       categoryId: performanceId ?? "missing",
     });
 
-    expect(page.total).toBe(1);
-    expect(page.items[0]?.name).toBe("Recovery Performance");
+    expect(page.total).toBe(2);
+    expect(page.items.map(({ name }) => name)).toEqual(["Creatina", "Recovery Performance"]);
   });
 
   it("paginates results using a numeric cursor", async () => {
@@ -57,8 +56,6 @@ describe("DemoCatalogRepository", () => {
   it("returns dashboard statistics and recent items", async () => {
     await expect(repository.getStats()).resolves.toEqual({
       total: 18,
-      actives: 14,
-      products: 4,
       enabled: 17,
     });
 
@@ -71,7 +68,6 @@ describe("DemoCatalogRepository", () => {
     const categoryId = (await import("./seed")).DEMO_CATEGORIES[0].id;
     const created = await repository.create({
       name: "Ácido Hialurônico",
-      type: "active",
       categoryId,
       shortDescription: "Ativo cadastrado durante o teste do catálogo.",
       keywords: ["pele"],

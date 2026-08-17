@@ -41,7 +41,6 @@ export function CatalogForm({
     defaultValues: initialItem
       ? {
           name: initialItem.name,
-          type: initialItem.type,
           categoryId: initialItem.categoryId,
           shortDescription: initialItem.shortDescription,
           keywords: initialItem.keywords,
@@ -50,7 +49,6 @@ export function CatalogForm({
         }
       : {
           name: "",
-          type: "active",
           categoryId: categories[0]?.id ?? "",
           shortDescription: "",
           keywords: [],
@@ -111,14 +109,6 @@ export function CatalogForm({
           <Label htmlFor="name">Nome</Label>
           <Input id="name" {...form.register("name")} aria-invalid={Boolean(error("name"))} />
           {error("name") && <p className="text-sm text-destructive">{error("name")}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="type">Tipo</Label>
-          <select id="type" {...form.register("type")} className="h-10 w-full border bg-background px-3 text-sm">
-            <option value="active">Ativo</option>
-            <option value="product">Produto</option>
-          </select>
         </div>
 
         <div className="space-y-2">

@@ -12,7 +12,6 @@ function rowInput(input: CatalogItemInput) {
   return {
     name: input.name,
     slug: slugify(input.name),
-    type: input.type,
     category_id: input.categoryId,
     short_description: input.shortDescription,
     keywords: input.keywords,
@@ -30,7 +29,6 @@ export class SupabaseCatalogRepository implements CatalogRepository {
   private async list(query: CatalogQuery, includeInactive: boolean): Promise<CatalogPage> {
     const { data, error } = await this.client.rpc("search_catalog_items", {
       p_query: query.q,
-      p_type: query.type === "all" ? null : query.type,
       p_category_id: query.categoryId === "all" ? null : query.categoryId,
       p_sort: query.sort,
       p_offset: query.cursor,
@@ -45,17 +43,17 @@ export class SupabaseCatalogRepository implements CatalogRepository {
   }
 
   async getStats(): Promise<CatalogStats> {
-    const count = async (column?: "type" | "active", value?: string | boolean) => {
+    const count = async (column?: "active", value?: boolean) => {
       let query = this.client.from("catalog_items").select("id", { count: "exact", head: true });
       if (column) query = query.eq(column, value!);
       const { count: result, error } = await query;
       if (error) throw error;
       return result ?? 0;
     };
-    const [total, actives, products, enabled] = await Promise.all([
-      count(), count("type", "active"), count("type", "product"), count("active", true),
+    const [total, enabled] = await Promise.all([
+      count(), count("active", true),
     ]);
-    return { total, actives, products, enabled };
+    return { total, enabled };
   }
 
   async listRecent(limit: number): Promise<CatalogItem[]> {

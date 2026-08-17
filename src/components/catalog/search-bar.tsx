@@ -23,7 +23,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         type="search"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder="Pesquise por nome, ativo ou categoria..."
+          placeholder="Pesquise por nome, categoria ou palavra-chave..."
         className="h-14 rounded-sm border-primary/35 bg-background pl-12 pr-12 text-base shadow-none"
       />
       {value ? (

@@ -21,9 +21,6 @@ export function RecentItems({ items, categories }: { items: CatalogItem[]; categ
               <strong className="text-sm">{item.name}</strong>
               <p className="mt-1 text-xs text-muted-foreground">{names.get(item.categoryId)}</p>
             </div>
-            <span className="text-xs text-muted-foreground">
-              {item.type === "active" ? "Ativo" : "Produto"}
-            </span>
             <Badge variant={item.active ? "secondary" : "outline"} className="w-fit rounded-sm">
               {item.active ? "Ativo" : "Inativo"}
             </Badge>

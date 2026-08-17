@@ -1,4 +1,3 @@
-export type CatalogItemType = "active" | "product";
 export type CatalogSort = "name-asc" | "name-desc" | "recent";
 
 export interface Category {
@@ -13,7 +12,6 @@ export interface CatalogItem {
   id: string;
   name: string;
   slug: string;
-  type: CatalogItemType;
   categoryId: string;
   shortDescription: string;
   keywords: string[];
@@ -30,7 +28,6 @@ export type CatalogItemInput = Omit<
 
 export interface CatalogQuery {
   q: string;
-  type: CatalogItemType | "all";
   categoryId: string | "all";
   sort: CatalogSort;
   cursor: number;
@@ -45,14 +42,11 @@ export interface CatalogPage {
 
 export interface CatalogStats {
   total: number;
-  actives: number;
-  products: number;
   enabled: number;
 }
 
 export const DEFAULT_QUERY: CatalogQuery = {
   q: "",
-  type: "all",
   categoryId: "all",
   sort: "name-asc",
   cursor: 0,

@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { CatalogItem, Category } from "@/lib/domain/catalog";
 
@@ -27,10 +26,7 @@ export function CatalogCard({ item, category, imageUrl }: CatalogCardProps) {
           />
         </div>
         <CardContent className="flex flex-1 flex-col p-5">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <Badge variant="secondary" className="rounded-sm font-medium">
-              {item.type === "active" ? "Ativo" : "Produto"}
-            </Badge>
+          <div className="mb-4 flex items-center justify-end gap-3">
             <span className="text-xs font-medium text-muted-foreground">{category.name}</span>
           </div>
           <h3 className="text-lg font-semibold tracking-tight text-brand-navy">

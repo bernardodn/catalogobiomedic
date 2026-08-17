@@ -37,8 +37,6 @@ export class DemoCatalogRepository implements CatalogRepository {
     const { items } = readDemoDatabase();
     return {
       total: items.length,
-      actives: items.filter(({ type }) => type === "active").length,
-      products: items.filter(({ type }) => type === "product").length,
       enabled: items.filter(({ active }) => active).length,
     };
   }

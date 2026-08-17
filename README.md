@@ -1,6 +1,6 @@
 # Catálogo Digital BioMedic
 
-Catálogo técnico responsivo para consulta pública de ativos e produtos da BioMedic Farmácia de Manipulação, com painel administrativo para conteúdo, categorias e imagens. O projeto não inclui preços, carrinho, compra ou páginas individuais de produto.
+Catálogo técnico responsivo para consulta pública de itens da BioMedic Farmácia de Manipulação, com painel administrativo para conteúdo, categorias e imagens. O projeto não inclui preços, carrinho, compra ou páginas individuais de produto.
 
 ## Requisitos
 

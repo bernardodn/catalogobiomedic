@@ -24,10 +24,9 @@ describe("BioMedic demonstration seed", () => {
     );
   });
 
-  it("covers both item types and an inactive state", () => {
-    expect(DEMO_ITEMS.filter(({ type }) => type === "active")).toHaveLength(14);
-    expect(DEMO_ITEMS.filter(({ type }) => type === "product")).toHaveLength(4);
+  it("covers the catalog and an inactive visibility state", () => {
     expect(DEMO_ITEMS.some(({ active }) => !active)).toBe(true);
+    expect(DEMO_ITEMS.every((item) => !("type" in item))).toBe(true);
   });
 
   it("has valid, unique records with valid category references", () => {

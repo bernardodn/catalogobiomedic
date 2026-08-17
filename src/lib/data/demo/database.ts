@@ -7,7 +7,7 @@ import { DEMO_CATEGORIES, DEMO_ITEMS } from "./seed";
 export const DEMO_DATABASE_KEY = "biomedic:demo:v1";
 
 export interface DemoDatabase {
-  version: 1;
+  version: 2;
   items: CatalogItem[];
   categories: Category[];
 }
@@ -27,14 +27,24 @@ const itemRecordSchema = catalogItemSchema.extend({
 });
 
 const databaseSchema = z.object({
-  version: z.literal(1),
+  version: z.literal(2),
   items: z.array(itemRecordSchema),
+  categories: z.array(categoryRecordSchema),
+});
+
+const legacyItemRecordSchema = itemRecordSchema.extend({
+  type: z.enum(["active", "product"]),
+});
+
+const legacyDatabaseSchema = z.object({
+  version: z.literal(1),
+  items: z.array(legacyItemRecordSchema),
   categories: z.array(categoryRecordSchema),
 });
 
 function cloneSeed(): DemoDatabase {
   return structuredClone({
-    version: 1 as const,
+    version: 2 as const,
     items: DEMO_ITEMS,
     categories: DEMO_CATEGORIES,
   });
@@ -52,7 +62,20 @@ export function readDemoDatabase(): DemoDatabase {
   if (!stored) return cloneSeed();
 
   try {
-    return structuredClone(databaseSchema.parse(JSON.parse(stored)));
+    const parsed = JSON.parse(stored);
+    const current = databaseSchema.safeParse(parsed);
+    if (current.success) return structuredClone(current.data);
+
+    const legacy = legacyDatabaseSchema.parse(parsed);
+    const migrated: DemoDatabase = {
+      version: 2,
+      items: legacy.items.map((item) =>
+        Object.fromEntries(Object.entries(item).filter(([key]) => key !== "type")) as CatalogItem,
+      ),
+      categories: legacy.categories,
+    };
+    writeDemoDatabase(migrated);
+    return structuredClone(migrated);
   } catch {
     const seed = cloneSeed();
     writeDemoDatabase(seed);

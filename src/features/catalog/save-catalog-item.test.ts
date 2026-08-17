@@ -7,7 +7,6 @@ import { saveCatalogItem } from "./save-catalog-item";
 
 const input: CatalogItemInput = {
   name: "Novo ativo",
-  type: "active",
   categoryId: "00000000-0000-4000-8000-000000000001",
   shortDescription: "Descrição técnica para o catálogo.",
   keywords: ["teste"],
@@ -43,7 +42,6 @@ describe("saveCatalogItem", () => {
     const repositories = createDemoRepositories();
     const current = (await repositories.catalog.listAdmin({
       q: "Berberina",
-      type: "all",
       categoryId: "all",
       sort: "name-asc",
       cursor: 0,
@@ -70,7 +68,6 @@ describe("saveCatalogItem", () => {
     const repositories = createDemoRepositories();
     const current = (await repositories.catalog.listAdmin({
       q: "Berberina",
-      type: "all",
       categoryId: "all",
       sort: "name-asc",
       cursor: 0,

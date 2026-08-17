@@ -20,7 +20,6 @@ const item: CatalogItem = {
   id: "10000000-0000-4000-8000-000000000001",
   name: "Magnésio Bisglicinato",
   slug: "magnesio-bisglicinato",
-  type: "active",
   categoryId: category.id,
   shortDescription: "Mineral disponível para formulações manipuladas.",
   keywords: ["sono", "relaxamento"],
@@ -32,7 +31,6 @@ const item: CatalogItem = {
 
 const baseQuery: CatalogQuery = {
   q: "",
-  type: "all",
   categoryId: "all",
   sort: "name-asc",
   cursor: 0,
@@ -48,7 +46,7 @@ describe("normalizeText", () => {
 describe("catalog search", () => {
   it("builds a searchable document from every public field", () => {
     expect(buildSearchDocument(item, category)).toBe(
-      "magnesio bisglicinato ativo minerais mineral disponivel para formulacoes manipuladas. sono relaxamento",
+      "magnesio bisglicinato minerais mineral disponivel para formulacoes manipuladas. sono relaxamento",
     );
   });
 
@@ -58,14 +56,13 @@ describe("catalog search", () => {
     );
   });
 
-  it("combines type and category filters", () => {
+  it("filters by category", () => {
     expect(
       matchesCatalogQuery(item, category, {
         ...baseQuery,
-        type: "product",
         categoryId: category.id,
       }),
-    ).toBe(false);
+    ).toBe(true);
   });
 });
 

@@ -34,14 +34,10 @@ describe("CatalogBrowser", () => {
     currentParams = new URLSearchParams();
   });
 
-  it("shows public totals and filters by item type", async () => {
-    const user = userEvent.setup();
+  it("shows the complete public catalog total", async () => {
     render(<CatalogBrowser />, { wrapper: Wrapper });
 
     expect(await screen.findByText("17 itens disponíveis")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Produtos" }));
-
-    expect(await screen.findByText("4 produtos disponíveis")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Complexo B" })).toBeInTheDocument();
   });
 

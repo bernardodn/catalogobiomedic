@@ -4,8 +4,8 @@ import { CatalogBrowser } from "@/components/catalog/catalog-browser";
 import { CatalogSkeleton } from "@/components/catalog/catalog-skeleton";
 
 export const metadata = {
-  title: "Catálogo BioMedic | Produtos e Ativos",
-  description: "Encontre produtos e ativos disponíveis para manipulação na BioMedic.",
+  title: "Catálogo BioMedic | Itens para Manipulação",
+  description: "Encontre itens disponíveis para manipulação na BioMedic.",
 };
 
 export default function CatalogPage() {
@@ -18,7 +18,7 @@ export default function CatalogPage() {
             Catálogo BioMedic
           </h1>
           <p className="mt-5 text-base leading-7 text-muted-foreground">
-            Encontre rapidamente produtos e ativos disponíveis para manipulação.
+            Encontre rapidamente itens disponíveis para manipulação.
           </p>
         </div>
         <div className="mt-10">

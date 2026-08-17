@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   DEFAULT_QUERY,
   type CatalogItem,
-  type CatalogItemType,
   type CatalogQuery,
   type CatalogSort,
   type Category,
@@ -26,10 +25,6 @@ export interface CatalogViewState {
   error: string | null;
 }
 
-function parseType(value: string | null): CatalogItemType | "all" {
-  return value === "active" || value === "product" ? value : "all";
-}
-
 function parseSort(value: string | null): CatalogSort {
   return value === "name-desc" || value === "recent" ? value : "name-asc";
 }
@@ -38,7 +33,6 @@ function queryFromParams(params: URLSearchParams): CatalogQuery {
   return {
     ...DEFAULT_QUERY,
     q: params.get("q")?.trim() ?? "",
-    type: parseType(params.get("type")),
     categoryId: params.get("category")?.trim() || "all",
     sort: parseSort(params.get("sort")),
   };
@@ -47,7 +41,6 @@ function queryFromParams(params: URLSearchParams): CatalogQuery {
 function queryToParams(query: CatalogQuery): string {
   const params = new URLSearchParams();
   if (query.q) params.set("q", query.q);
-  if (query.type !== "all") params.set("type", query.type);
   if (query.categoryId !== "all") params.set("category", query.categoryId);
   if (query.sort !== "name-asc") params.set("sort", query.sort);
   return params.toString();
@@ -129,10 +122,6 @@ export function useCatalogQuery() {
       });
   }, [query, repositories, resolveImages, retryKey]);
 
-  const setType = useCallback((type: CatalogItemType | "all") => {
-    setQuery((current) => ({ ...current, type, cursor: 0 }));
-  }, []);
-
   const setCategory = useCallback((categoryId: string | "all") => {
     setQuery((current) => ({ ...current, categoryId, cursor: 0 }));
   }, []);
@@ -174,7 +163,6 @@ export function useCatalogQuery() {
     query,
     state,
     setSearch: setSearchValue,
-    setType,
     setCategory,
     setSort,
     loadMore,

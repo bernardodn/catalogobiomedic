@@ -8,7 +8,6 @@ const keywordSchema = z
 
 export const catalogItemSchema = z.object({
   name: z.string().trim().min(2, "Informe o nome.").max(120, "Use no máximo 120 caracteres."),
-  type: z.enum(["active", "product"]),
   categoryId: z.uuid("Selecione uma categoria válida."),
   shortDescription: z
     .string()

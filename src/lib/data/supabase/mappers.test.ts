@@ -8,7 +8,6 @@ describe("Supabase mappers", () => {
       id: "10000000-0000-4000-8000-000000000001",
       name: "Berberina",
       slug: "berberina",
-      type: "active",
       category_id: "00000000-0000-4000-8000-000000000003",
       short_description: "Descrição",
       keywords: ["metabolismo"],
@@ -20,7 +19,6 @@ describe("Supabase mappers", () => {
       id: "10000000-0000-4000-8000-000000000001",
       name: "Berberina",
       slug: "berberina",
-      type: "active",
       categoryId: "00000000-0000-4000-8000-000000000003",
       shortDescription: "Descrição",
       keywords: ["metabolismo"],
@@ -41,11 +39,11 @@ describe("Supabase mappers", () => {
     })).toMatchObject({ createdAt: "2026-01-01T00:00:00Z", updatedAt: "2026-01-02T00:00:00Z" });
   });
 
-  it("fails loudly for an unknown catalog type", () => {
-    expect(() => mapCatalogItem({
-      id: "id", name: "Item", slug: "item", type: "service", category_id: "category",
+  it("maps rows without a catalog type", () => {
+    expect(mapCatalogItem({
+    id: "id", name: "Item", slug: "item", category_id: "category",
       short_description: "Description", keywords: [], image_path: null, active: true,
       created_at: "date", updated_at: "date",
-    })).toThrow(/tipo/i);
+    })).toMatchObject({ name: "Item" });
   });
 });

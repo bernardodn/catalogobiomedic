@@ -19,8 +19,6 @@ describe("DashboardContent", () => {
     );
 
     expect(await screen.findByText("18", { selector: "strong" })).toBeInTheDocument();
-    expect(screen.getByText("14", { selector: "strong" })).toBeInTheDocument();
-    expect(screen.getByText("4", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("13", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("17", { selector: "strong" })).toBeInTheDocument();
     expect(screen.getByText("Recovery Performance")).toBeInTheDocument();

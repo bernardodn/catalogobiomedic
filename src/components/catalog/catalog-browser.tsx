@@ -21,10 +21,8 @@ export function CatalogBrowser() {
       <SearchBar value={catalog.search} onChange={catalog.setSearch} />
       <div className="flex flex-wrap items-center justify-between gap-3 border-y py-4">
         <CatalogFilters
-          type={catalog.query.type}
           categoryId={catalog.query.categoryId}
           categories={catalog.state.categories}
-          onTypeChange={catalog.setType}
           onCategoryChange={catalog.setCategory}
         />
         <SortSelect value={catalog.query.sort} onChange={catalog.setSort} />

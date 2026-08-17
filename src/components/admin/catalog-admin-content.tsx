@@ -9,7 +9,6 @@ import { useCatalogAdmin } from "@/features/catalog/use-catalog-admin";
 import type { CatalogItem } from "@/lib/domain/catalog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -75,21 +74,20 @@ export function CatalogAdminContent() {
 
       <div className="hidden overflow-hidden border bg-card md:block">
         <Table>
-          <TableHeader><TableRow><TableHead>Item</TableHead><TableHead>Tipo</TableHead><TableHead>Categoria</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow><TableHead>Item</TableHead><TableHead>Categoria</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
           <TableBody>
             {items.map((item) => {
               const busy = state.busyIds.includes(item.id);
               return (
                 <TableRow key={item.id}>
                   <TableCell><div className="font-medium">{item.name}</div><div className="mt-1 max-w-md truncate text-xs text-muted-foreground">{item.shortDescription}</div></TableCell>
-                  <TableCell><Badge variant="outline" className="rounded-sm">{item.type === "active" ? "Ativo" : "Produto"}</Badge></TableCell>
                   <TableCell>{categories.get(item.categoryId) ?? "—"}</TableCell>
                   <TableCell><div className="flex items-center gap-2"><Switch checked={item.active} disabled={busy} onCheckedChange={(active) => void toggle(item, active)} aria-label={`${item.active ? "Desativar" : "Ativar"} ${item.name}`} /><span className="text-xs text-muted-foreground">{item.active ? "Visível" : "Oculto"}</span></div></TableCell>
                   <TableCell><div className="flex justify-end gap-1"><Button asChild variant="ghost" size="icon"><Link href={`/admin/catalogo/${item.id}/editar`} aria-label={`Editar ${item.name}`}><Pencil aria-hidden="true" /></Link></Button><Button variant="ghost" size="icon" aria-label={`Excluir ${item.name}`} onClick={() => setPendingDelete(item)}><Trash2 aria-hidden="true" /></Button></div></TableCell>
                 </TableRow>
               );
             })}
-            {items.length === 0 && <TableRow><TableCell colSpan={5} className="h-32 text-center text-muted-foreground">Nenhum item encontrado.</TableCell></TableRow>}
+            {items.length === 0 && <TableRow><TableCell colSpan={4} className="h-32 text-center text-muted-foreground">Nenhum item encontrado.</TableCell></TableRow>}
           </TableBody>
         </Table>
       </div>
@@ -103,7 +101,6 @@ export function CatalogAdminContent() {
                   <h2 className="font-medium text-brand-navy">{item.name}</h2>
                   <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">{item.shortDescription}</p>
                 </div>
-                <Badge variant="outline" className="shrink-0 rounded-sm">{item.type === "active" ? "Ativo" : "Produto"}</Badge>
               </div>
               <div className="flex items-center justify-between gap-3 border-t pt-3">
                 <div>

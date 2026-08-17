@@ -16,7 +16,6 @@ const item: CatalogItem = {
   id: "10000000-0000-4000-8000-000000000003",
   name: "Magnésio Bisglicinato",
   slug: "magnesio-bisglicinato",
-  type: "active",
   categoryId: category.id,
   shortDescription: "Mineral disponível para formulações manipuladas.",
   keywords: ["magnésio", "sono", "relaxamento", "mineral"],
@@ -31,7 +30,6 @@ describe("CatalogCard", () => {
     render(<CatalogCard item={item} category={category} imageUrl={null} />);
 
     expect(screen.getByRole("heading", { name: item.name })).toBeInTheDocument();
-    expect(screen.getByText("Ativo")).toBeInTheDocument();
     expect(screen.getByText(category.name)).toBeInTheDocument();
     expect(screen.getByText(item.shortDescription)).toBeInTheDocument();
     expect(screen.getByText("magnésio")).toBeInTheDocument();

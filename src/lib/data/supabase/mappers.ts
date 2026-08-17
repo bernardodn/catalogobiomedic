@@ -1,10 +1,9 @@
-import type { CatalogItem, CatalogItemType, Category } from "@/lib/domain/catalog";
+import type { CatalogItem, Category } from "@/lib/domain/catalog";
 
 export interface CatalogRow {
   id: string;
   name: string;
   slug: string;
-  type: string;
   category_id: string;
   short_description: string;
   keywords: string[];
@@ -22,17 +21,11 @@ export interface CategoryRow {
   updated_at: string;
 }
 
-function mapType(value: string): CatalogItemType {
-  if (value === "active" || value === "product") return value;
-  throw new Error(`Tipo de item inválido recebido do banco: ${value}`);
-}
-
 export function mapCatalogItem(row: CatalogRow): CatalogItem {
   return {
     id: row.id,
     name: row.name,
     slug: row.slug,
-    type: mapType(row.type),
     categoryId: row.category_id,
     shortDescription: row.short_description,
     keywords: row.keywords,

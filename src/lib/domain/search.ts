@@ -5,11 +5,6 @@ import type {
   Category,
 } from "./catalog";
 
-const TYPE_LABELS = {
-  active: "ativo",
-  product: "produto",
-} as const;
-
 export function normalizeText(value: string): string {
   return value
     .normalize("NFD")
@@ -26,7 +21,6 @@ export function buildSearchDocument(
   return normalizeText(
     [
       item.name,
-      TYPE_LABELS[item.type],
       category.name,
       item.shortDescription,
       ...item.keywords,
@@ -39,7 +33,6 @@ export function matchesCatalogQuery(
   category: Category,
   query: CatalogQuery,
 ): boolean {
-  if (query.type !== "all" && item.type !== query.type) return false;
   if (query.categoryId !== "all" && item.categoryId !== query.categoryId) {
     return false;
   }

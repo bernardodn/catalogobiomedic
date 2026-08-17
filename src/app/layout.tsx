@@ -20,12 +20,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Catálogo de Ativos | BioMedic Farmácia de Manipulação",
+  title: "Catálogo BioMedic | Farmácia de Manipulação",
   description:
-    "Consulte produtos e ativos disponíveis na BioMedic Farmácia de Manipulação.",
+    "Consulte itens disponíveis na BioMedic Farmácia de Manipulação.",
   openGraph: {
     title: "Catálogo BioMedic",
-    description: "Consulte produtos e ativos disponíveis para manipulação.",
+    description: "Consulte itens disponíveis para manipulação.",
     locale: "pt_BR",
     type: "website",
     images: [{ url: "/brand/biomedic-logo.png", width: 269, height: 79, alt: "BioMedic Farmácia de Manipulação" }],

@@ -40,10 +40,8 @@ describe("useCatalogQuery", () => {
 
     await waitFor(() => expect(result.current.state.status).toBe("success"));
     expect(result.current.search).toBe("magnesio");
-    expect(result.current.query).toMatchObject({ type: "active", sort: "name-desc" });
-    expect(result.current.state.items.map(({ name }) => name)).toEqual([
-      "Magnésio Bisglicinato",
-    ]);
+    expect(result.current.query).toMatchObject({ sort: "name-desc" });
+    expect(result.current.state.items.map(({ name }) => name)).toContain("Magnésio Bisglicinato");
   });
 
   it("updates the input immediately and applies search after debounce", async () => {
@@ -67,15 +65,13 @@ describe("useCatalogQuery", () => {
     const { result } = renderHook(() => useCatalogQuery(), { wrapper: Wrapper });
     await waitFor(() => expect(result.current.state.status).toBe("success"));
 
-    act(() => result.current.setType("product"));
-    await waitFor(() => expect(result.current.state.total).toBe(4));
-    expect(replace).toHaveBeenLastCalledWith("/catalogo?type=product", {
+    await waitFor(() => expect(result.current.state.total).toBe(17));
+    expect(replace).toHaveBeenLastCalledWith("/catalogo", {
       scroll: false,
     });
 
     act(() => result.current.reset());
     await waitFor(() => expect(result.current.state.total).toBe(17));
-    expect(result.current.query.type).toBe("all");
   });
 
   it("does not let an older slow response replace a newer search", async () => {
@@ -121,7 +117,6 @@ describe("useCatalogQuery", () => {
     for (let index = 0; index < 8; index += 1) {
       await repositories.catalog.create({
         name: `Item adicional ${index + 1}`,
-        type: "active",
         categoryId,
         shortDescription: "Item criado para verificar a paginação progressiva.",
         keywords: ["paginação"],
