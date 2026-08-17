@@ -11,12 +11,12 @@ export function CatalogGrid({ items, categories, imageUrls = {} }: CatalogGridPr
   const categoriesById = new Map(categories.map((category) => [category.id, category]));
 
   return (
-    <div className="grid grid-cols-1 gap-px overflow-hidden border bg-border min-[520px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {items.map((item) => {
         const category = categoriesById.get(item.categoryId);
         if (!category) return null;
         return (
-          <div key={item.id} className="bg-background p-3 sm:p-4">
+          <div key={item.id}>
             <CatalogCard
               item={item}
               category={category}
